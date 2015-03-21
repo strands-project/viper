@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   tf_conversions
   message_generation
+  cmake_modules
 )
 
 find_package(octomap 1.6 REQUIRED)
@@ -87,7 +88,7 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include 
+#  INCLUDE_DIRS include 
   LIBRARIES viper 
 #  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
@@ -112,13 +113,17 @@ include_directories(
 ## Declare a cpp executable
 # add_executable(viper_node src/viper_node.cpp)
 
+
+
 add_executable(kinematics_test src/kinematics_test.cpp)
 target_link_libraries(kinematics_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${EIGEN_LIBRARIES})
 
 add_executable(ptu_fk src/ptu_fk.cpp)
+add_dependencies(ptu_fk viper_gencpp)
 target_link_libraries(ptu_fk ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${EIGEN_LIBRARIES})
 
 add_executable(eval_view src/eval_view.cpp)
+add_dependencies(eval_view viper_gencpp)
 target_link_libraries(eval_view ${catkin_LIBRARIES} ${OCTOMAP_LIBRARY_DIRS})
 
 ## Add cmake target dependencies of the executable/library
